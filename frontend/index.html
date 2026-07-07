@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Profile Explorer</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+    <div class="background-glow"></div>
+    <div class="container">
+        <header class="hero-card card">
+            <div>
+                <p class="eyebrow">Developer insights</p>
+                <h1>GitHub Profile Explorer</h1>
+                <p>Inspect public profiles, surface repo trends, and see language usage in a polished dashboard.</p>
+            </div>
+            <div class="hero-pill">Live GitHub data</div>
+        </header>
+
+        <form id="analyze-form" class="card search-card">
+            <label for="username">GitHub Username</label>
+            <div class="input-row">
+                <input id="username" name="username" placeholder="Try octocat, torvalds, or microsoft" required />
+                <button type="submit">Analyze</button>
+            </div>
+            <p id="status" class="status">Enter a username to begin your analysis.</p>
+        </form>
+
+        <section id="results" class="hidden">
+            <div class="card profile-card">
+                <img id="avatar" alt="avatar" class="avatar" />
+                <div class="profile-copy">
+                    <h2 id="profile-name">-</h2>
+                    <p id="profile-login">-</p>
+                    <p id="profile-bio">-</p>
+                    <div id="profile-tags" class="tag-row"></div>
+                </div>
+            </div>
+
+            <div class="card stats-grid">
+                <div class="stat-box"><strong>Followers</strong><p id="followers">-</p></div>
+                <div class="stat-box"><strong>Following</strong><p id="following">-</p></div>
+                <div class="stat-box"><strong>Public Repos</strong><p id="repos">-</p></div>
+                <div class="stat-box"><strong>Most Used Language</strong><p id="language">-</p></div>
+            </div>
+
+            <div class="card stats-grid">
+                <div class="stat-box"><strong>Repos Analyzed</strong><p id="insight-repos">-</p></div>
+                <div class="stat-box"><strong>Language Diversity</strong><p id="insight-languages">-</p></div>
+                <div class="stat-box"><strong>Activity Score</strong><p id="insight-activity">-</p></div>
+                <div class="stat-box"><strong>Top Forked Repo</strong><p id="insight-top-fork">-</p></div>
+            </div>
+
+            <div class="card">
+                <h3>Top Repositories</h3>
+                <table>
+                    <thead>
+                        <tr><th>Name</th><th>Stars</th><th>Language</th><th>Updated</th></tr>
+                    </thead>
+                    <tbody id="repo-table-body"></tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>Language Usage</h3>
+                <div id="language-bars"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>

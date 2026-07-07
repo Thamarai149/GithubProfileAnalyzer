@@ -1,0 +1,212 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #020617, #111827 55%, #0f172a);
+    color: #e2e8f0;
+    min-height: 100vh;
+    position: relative;
+}
+
+.background-glow {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.25), transparent 30%);
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    margin-bottom: 1.2rem;
+}
+
+h1, h2, h3 {
+    margin-bottom: 0.5rem;
+}
+
+.card {
+    background: rgba(15, 23, 42, 0.86);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 20px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 20px 45px rgba(2, 6, 23, 0.35);
+    backdrop-filter: blur(12px);
+}
+
+.hero-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    font-size: 0.78rem;
+    color: #60a5fa;
+    margin-bottom: 0.4rem;
+}
+
+.hero-pill {
+    padding: 0.6rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(59, 130, 246, 0.18);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    color: #bfdbfe;
+    white-space: nowrap;
+}
+
+.search-card {
+    padding: 1.15rem 1.2rem;
+}
+
+.input-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+input, button {
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: none;
+    font-size: 0.96rem;
+}
+
+input {
+    flex: 1;
+    background: rgba(15, 23, 42, 0.85);
+    color: #f8fafc;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+button {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.25);
+}
+
+.status {
+    color: #93c5fd;
+    margin-top: 0.7rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.profile-card {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.avatar {
+    width: 106px;
+    height: 106px;
+    border-radius: 50%;
+    border: 2px solid #60a5fa;
+    box-shadow: 0 10px 25px rgba(96, 165, 250, 0.2);
+}
+
+.profile-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.3rem;
+}
+
+.tag {
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(59, 130, 246, 0.14);
+    color: #bfdbfe;
+    font-size: 0.8rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.stat-box {
+    padding: 0.8rem;
+    border-radius: 14px;
+    background: rgba(2, 6, 23, 0.45);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.stat-box p {
+    margin: 0.25rem 0 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    text-align: left;
+}
+
+.bar-row {
+    margin-bottom: 0.8rem;
+}
+
+.bar-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
+.bar-track {
+    width: 100%;
+    height: 10px;
+    background: rgba(2, 6, 23, 0.75);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.bar {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #60a5fa, #2563eb);
+    border-radius: 999px;
+}
+
+@media (max-width: 700px) {
+    .hero-card, .profile-card, .input-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-pill {
+        align-self: flex-start;
+    }
+}
