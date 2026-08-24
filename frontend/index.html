@@ -1,74 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GitHub Profile Explorer</title>
-    <link rel="stylesheet" href="/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Profile Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-    <div class="background-glow"></div>
-    <div class="container">
-        <header class="hero-card card">
-            <div>
-                <p class="eyebrow">Developer insights</p>
-                <h1>GitHub Profile Explorer</h1>
-                <p>Inspect public profiles, surface repo trends, and see language usage in a polished dashboard.</p>
-            </div>
-            <div class="hero-pill">Live GitHub data</div>
-        </header>
 
-        <form id="analyze-form" class="card search-card">
-            <label for="username">GitHub Username</label>
-            <div class="input-row">
-                <input id="username" name="username" placeholder="Try octocat, torvalds, or microsoft" required />
-                <button type="submit">Analyze</button>
-            </div>
-            <p id="status" class="status">Enter a username to begin your analysis.</p>
-        </form>
+  <!-- Ambient background -->
+  <div class="bg-ambient">
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+  </div>
 
-        <section id="results" class="hidden">
-            <div class="card profile-card">
-                <img id="avatar" alt="avatar" class="avatar" />
-                <div class="profile-copy">
-                    <h2 id="profile-name">-</h2>
-                    <p id="profile-login">-</p>
-                    <p id="profile-bio">-</p>
-                    <div id="profile-tags" class="tag-row"></div>
-                </div>
-            </div>
-
-            <div class="card stats-grid">
-                <div class="stat-box"><strong>Followers</strong><p id="followers">-</p></div>
-                <div class="stat-box"><strong>Following</strong><p id="following">-</p></div>
-                <div class="stat-box"><strong>Public Repos</strong><p id="repos">-</p></div>
-                <div class="stat-box"><strong>Most Used Language</strong><p id="language">-</p></div>
-            </div>
-
-            <div class="card stats-grid">
-                <div class="stat-box"><strong>Repos Analyzed</strong><p id="insight-repos">-</p></div>
-                <div class="stat-box"><strong>Language Diversity</strong><p id="insight-languages">-</p></div>
-                <div class="stat-box"><strong>Activity Score</strong><p id="insight-activity">-</p></div>
-                <div class="stat-box"><strong>Top Forked Repo</strong><p id="insight-top-fork">-</p></div>
-            </div>
-
-            <div class="card">
-                <h3>Top Repositories</h3>
-                <table>
-                    <thead>
-                        <tr><th>Name</th><th>Stars</th><th>Language</th><th>Updated</th></tr>
-                    </thead>
-                    <tbody id="repo-table-body"></tbody>
-                </table>
-            </div>
-
-            <div class="card">
-                <h3>Language Usage</h3>
-                <div id="language-bars"></div>
-            </div>
-        </section>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="currentColor"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">GitHub Explorer</div>
+        <div class="brand-sub">Developer Analytics</div>
+      </div>
     </div>
 
-    <script src="/app.js"></script>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="#" class="nav-item active" data-section="overview">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Overview
+      </a>
+      <a href="#" class="nav-item" data-section="repositories">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM9 3v18M3 9h6M3 15h6"/></svg>
+        Repositories
+      </a>
+      <a href="#" class="nav-item" data-section="analytics">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Analytics
+      </a>
+      <a href="#" class="nav-item" data-section="languages">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        Languages
+      </a>
+      <a href="#" class="nav-item" data-section="activity">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Activity
+      </a>
+      <div class="nav-section-label">Tools</div>
+      <a href="#" class="nav-item" data-section="compare">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        Compare
+      </a>
+      <a href="#" class="nav-item" data-section="saved">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        Saved Profiles
+      </a>
+      <a href="#" class="nav-item" data-section="settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Settings
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-status">
+        <span class="status-dot"></span>
+        <span>API Connected</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile sidebar toggle -->
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main content -->
+  <main class="main-content">
+
+    <!-- Top header bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="topbar-title">GitHub Profile Explorer</h1>
+        <span class="topbar-sub">Developer insights &amp; analytics</span>
+      </div>
+      <div class="topbar-right">
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          Live GitHub Data
+        </div>
+        <div class="topbar-avatar" id="topbar-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-body">
+
+      <!-- Search section -->
+      <section class="search-section">
+        <div class="search-heading">
+          <h2>Analyze a GitHub Profile</h2>
+          <p>Enter any public GitHub username to surface deep insights, repo metrics, and language trends.</p>
+        </div>
+        <form id="analyze-form" class="search-form">
+          <div class="search-input-wrap">
+            <span class="search-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <input id="username" name="username" placeholder="Enter a GitHub username…" required autocomplete="off" />
+            <button type="submit" class="analyze-btn" id="analyze-btn">
+              <span class="btn-text">Analyze</span>
+              <span class="btn-spinner hidden"></span>
+            </button>
+          </div>
+          <div class="search-examples">
+            Try:
+            <button type="button" class="example-chip" data-user="torvalds">torvalds</button>
+            <button type="button" class="example-chip" data-user="gaearon">gaearon</button>
+            <button type="button" class="example-chip" data-user="addyosmani">addyosmani</button>
+            <button type="button" class="example-chip" data-user="sindresorhus">sindresorhus</button>
+          </div>
+          <p id="status" class="search-status">Enter a username to begin your analysis.</p>
+        </form>
+      </section>
+
+      <!-- Results -->
+      <section id="results" class="hidden">
+
+        <!-- Profile card -->
+        <div class="profile-section">
+          <div class="glass-card profile-card">
+            <div class="profile-avatar-wrap">
+              <img id="avatar" alt="avatar" class="profile-avatar" />
+              <span class="verified-badge" title="Public GitHub Profile">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </span>
+            </div>
+            <div class="profile-info">
+              <div class="profile-name-row">
+                <h2 id="profile-name">—</h2>
+                <span class="profile-login-badge" id="profile-login">—</span>
+              </div>
+              <p id="profile-bio" class="profile-bio">—</p>
+              <div class="profile-meta" id="profile-meta"></div>
+              <div class="profile-tags" id="profile-tags"></div>
+            </div>
+            <div class="profile-actions">
+              <a id="profile-link" href="#" target="_blank" rel="noopener" class="btn-primary">
+                View on GitHub
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI stats row -->
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Followers</div>
+              <div class="kpi-value" id="followers">—</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-purple">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Following</div>
+              <div class="kpi-value" id="following">—</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-cyan">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM9 3v18M3 9h6M3 15h6"/></svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Public Repos</div>
+              <div class="kpi-value" id="repos">—</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Activity Score</div>
+              <div class="kpi-value" id="insight-activity">—</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-orange">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="kpi-body">
+              <div class="kpi-label">Total Stars</div>
+              <div class="kpi-value" id="total-stars">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard grid -->
+        <div class="dashboard-grid">
+
+          <!-- Top Repositories -->
+          <div class="glass-card span-2" id="card-repos">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3 class="card-title">Top Repositories</h3>
+                <span class="card-badge" id="repo-count-badge">—</span>
+              </div>
+              <span class="card-hint">Sorted by stars</span>
+            </div>
+            <div class="repo-table-wrap">
+              <table class="repo-table">
+                <thead>
+                  <tr>
+                    <th>Repository</th>
+                    <th>Language</th>
+                    <th>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      Stars
+                    </th>
+                    <th>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg>
+                      Forks
+                    </th>
+                    <th>Updated</th>
+                  </tr>
+                </thead>
+                <tbody id="repo-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Language Usage -->
+          <div class="glass-card" id="card-languages">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3 class="card-title">Language Usage</h3>
+              </div>
+              <span class="card-hint" id="lang-diversity">— languages</span>
+            </div>
+            <div id="language-bars" class="lang-bars"></div>
+          </div>
+
+          <!-- Profile Insights -->
+          <div class="glass-card" id="card-insights">
+            <div class="card-header">
+              <h3 class="card-title">Profile Insights</h3>
+            </div>
+            <div class="insights-grid">
+              <div class="insight-item">
+                <div class="insight-icon insight-blue">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/></svg>
+                </div>
+                <div>
+                  <div class="insight-label">Repos Analyzed</div>
+                  <div class="insight-value" id="insight-repos">—</div>
+                </div>
+              </div>
+              <div class="insight-item">
+                <div class="insight-icon insight-purple">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20"/></svg>
+                </div>
+                <div>
+                  <div class="insight-label">Language Diversity</div>
+                  <div class="insight-value" id="insight-languages">—</div>
+                </div>
+              </div>
+              <div class="insight-item">
+                <div class="insight-icon insight-green">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </div>
+                <div>
+                  <div class="insight-label">Avg Stars / Repo</div>
+                  <div class="insight-value" id="insight-avg-stars">—</div>
+                </div>
+              </div>
+              <div class="insight-item">
+                <div class="insight-icon insight-orange">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg>
+                </div>
+                <div>
+                  <div class="insight-label">Total Forks</div>
+                  <div class="insight-value" id="insight-forks">—</div>
+                </div>
+              </div>
+              <div class="insight-item">
+                <div class="insight-icon insight-cyan">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <div>
+                  <div class="insight-label">Most Starred Repo</div>
+                  <div class="insight-value insight-value-sm" id="insight-top-repo">—</div>
+                </div>
+              </div>
+              <div class="insight-item">
+                <div class="insight-icon insight-red">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                </div>
+                <div>
+                  <div class="insight-label">Top Forked Repo</div>
+                  <div class="insight-value insight-value-sm" id="insight-top-fork">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Repos -->
+          <div class="glass-card span-2" id="card-recent">
+            <div class="card-header">
+              <h3 class="card-title">Recently Updated</h3>
+              <span class="card-hint">Last 8 repositories</span>
+            </div>
+            <div class="recent-repos-grid" id="recent-repos-grid"></div>
+          </div>
+
+        </div>
+        <!-- end dashboard grid -->
+
+      </section>
+      <!-- end results -->
+
+    </div>
+  </main>
+
+  <script src="/app.js"></script>
 </body>
 </html>
