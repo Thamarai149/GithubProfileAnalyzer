@@ -20,14 +20,6 @@ const btnText      = analyzeBtn.querySelector('.btn-text');
 const btnSpinner   = analyzeBtn.querySelector('.btn-spinner');
 const usernameInput = document.getElementById('username');
 
-/* ─── Example chips ─────────────────────────────────────── */
-document.querySelectorAll('.example-chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    usernameInput.value = chip.dataset.user;
-    form.dispatchEvent(new Event('submit'));
-  });
-});
-
 /* ─── Mobile sidebar toggle ─────────────────────────────── */
 const sidebar        = document.getElementById('sidebar');
 const sidebarToggle  = document.getElementById('sidebarToggle');
