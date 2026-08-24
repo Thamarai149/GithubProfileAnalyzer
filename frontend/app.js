@@ -33,9 +33,9 @@ function renderResults(data) {
     document.getElementById('profile-name').textContent = profile.name || profile.login;
     document.getElementById('profile-login').textContent = `@${profile.login}`;
     document.getElementById('profile-bio').textContent = profile.bio || 'No bio available.';
-    document.getElementById('followers').textContent = profile.followers;
-    document.getElementById('following').textContent = profile.following;
-    document.getElementById('repos').textContent = profile.public_repos;
+    document.getElementById('followers').textContent = profile.followers.toLocaleString();
+    document.getElementById('following').textContent = profile.following.toLocaleString();
+    document.getElementById('repos').textContent = profile.public_repos.toLocaleString();
     document.getElementById('language').textContent = data.summary.most_used_language || 'N/A';
     document.getElementById('avatar').src = profile.avatar_url || 'https://github.com/github.png';
 
