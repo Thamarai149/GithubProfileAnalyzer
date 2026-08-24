@@ -35,11 +35,24 @@ sidebarOverlay.addEventListener('click', () => {
 });
 
 /* ─── Nav items — scroll to section ────────────────────── */
+const toolSections = ['compare', 'saved', 'settings'];
+
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', e => {
     e.preventDefault();
 
-    // Update active state
+    const section = item.dataset.section;
+
+    // Tool items (no real section) — don't change active state
+    if (toolSections.includes(section)) {
+      document.getElementById('search-section')
+        .scrollIntoView({ behavior: 'smooth', block: 'start' });
+      sidebar.classList.remove('open');
+      sidebarOverlay.classList.remove('open');
+      return;
+    }
+
+    // Update active state only for real sections
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     item.classList.add('active');
 
