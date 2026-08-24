@@ -47,5 +47,4 @@ class UserProfile:
             "public_gists": self.public_gists,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "repositories": [repo.__dict__ for repo in self.repositories],
         }
