@@ -560,6 +560,15 @@ img { display: block; }
 }
 .recent-meta-item { display: flex; align-items: center; gap: 4px; }
 
+/* ─── Nav highlight flash ─────────────────────────────────── */
+@keyframes navHighlight {
+  0%   { border-color: rgba(79,142,247,0.6); box-shadow: 0 0 0 3px rgba(79,142,247,0.15); }
+  100% { border-color: var(--border); box-shadow: none; }
+}
+.nav-highlight {
+  animation: navHighlight 0.9s ease-out forwards;
+}
+
 /* ─── Utility ─────────────────────────────────────────────── */
 .hidden { display: none !important; }
 

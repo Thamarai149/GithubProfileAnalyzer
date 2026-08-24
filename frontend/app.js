@@ -34,12 +34,38 @@ sidebarOverlay.addEventListener('click', () => {
   sidebarOverlay.classList.remove('open');
 });
 
-/* ─── Nav items (visual only) ───────────────────────────── */
+/* ─── Nav items — scroll to section ────────────────────── */
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', e => {
     e.preventDefault();
+
+    // Update active state
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     item.classList.add('active');
+
+    // Close mobile sidebar
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('open');
+
+    const targetId = item.dataset.target;
+    if (!targetId) return;
+
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    // If results are hidden, scroll to search instead
+    const resultsHidden = document.getElementById('results').classList.contains('hidden');
+    const scrollTarget = (targetId !== 'search-section' && resultsHidden)
+      ? document.getElementById('search-section')
+      : target;
+
+    scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Flash highlight on the card
+    if (!resultsHidden && targetId !== 'results' && targetId !== 'search-section') {
+      target.classList.add('nav-highlight');
+      setTimeout(() => target.classList.remove('nav-highlight'), 900);
+    }
   });
 });
 
